@@ -2283,33 +2283,55 @@ label[for="liveBirds"]::before { content: "🐔"; }
     pointer-events: none;
 }
 
+#printRoot {
+    display: none;
+}
+
 @media print {
     @page {
-        size: A5 portrait;
+        size: 148mm 210mm;
         margin: 0;
     }
 
+    html,
     body.print-mode {
         width: 148mm;
-        height: 210mm;
+        height: 209mm;
+        min-height: 0;
         margin: 0;
         padding: 0;
         overflow: hidden;
         background: #fff;
     }
 
-    body.print-mode * {
-        visibility: hidden !important;
+    body.print-mode > :not(#printRoot) {
+        display: none !important;
     }
 
-    body.print-mode .receipt-card.print-target,
-    body.print-mode .receipt-card.print-target * {
-        visibility: visible !important;
+    body.print-mode #printRoot {
+        position: fixed !important;
+        inset: 0 auto auto 0 !important;
+        display: grid !important;
+        width: 148mm !important;
+        height: 209mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        place-items: start center;
+        break-after: avoid-page;
+        page-break-after: avoid;
     }
 
-    body.print-mode .receipt-card.print-target {
-        position: absolute;
-        inset: 0 auto auto 0;
+    body.print-mode #printRoot .receipt-card.print-target {
+        position: relative !important;
+        inset: auto !important;
+        width: 148mm !important;
+        height: 209mm !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
     body.print-mode .topbar::before,

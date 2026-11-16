@@ -570,10 +570,23 @@ function downloadReceipt(receipt, bill) {
 
 function printReceipt(receipt) {
     $$(".receipt-card").forEach(card => card.classList.remove("print-target"));
+    const originalParent = receipt.parentElement;
+    if (!originalParent) return;
+
+    const placeholder = document.createComment("receipt print position");
+    originalParent.insertBefore(placeholder, receipt);
+    const printRoot = document.createElement("div");
+    printRoot.id = "printRoot";
+
     receipt.classList.add("print-target");
+    printRoot.appendChild(receipt);
+    document.body.appendChild(printRoot);
     document.body.classList.add("print-mode");
 
     window.addEventListener("afterprint", () => {
+        if (placeholder.parentNode) placeholder.parentNode.insertBefore(receipt, placeholder);
+        placeholder.remove();
+        printRoot.remove();
         receipt.classList.remove("print-target");
         document.body.classList.remove("print-mode");
     }, { once: true });
