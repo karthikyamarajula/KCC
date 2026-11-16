@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Karthik Chicken Centre POS",
+  "short_name": "KCC POS",
+  "description": "Admin billing and recent bill history for Karthik Chicken Centre.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F7FA",
+  "theme_color": "#991B1B",
+  "icons": [
+    {
+      "src": "./app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#991B1B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="KCC POS">
+    <title>Karthik Chicken Centre | POS</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./app-icon.svg">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span class="sidebar-logo" aria-hidden="true">🐓</span>
+                <span>Karthik<br>Chicken Centre</span>
+            </div>
+            <nav class="sidebar-nav" aria-label="Main navigation">
+                <button class="nav-link active" type="button" data-page="home">
+                    <span class="nav-icon" aria-hidden="true">⌂</span>
+                    <span>Home <small>New Bill</small></span>
+                </button>
+                <button class="nav-link" type="button" data-page="history">
+                    <span class="nav-icon" aria-hidden="true">▤</span>
+                    <span>Recent Bill History</span>
+                </button>
+            </nav>
+            <div class="sidebar-foot">Business POS</div>
+        </aside>
+
+        <div class="workspace">
+            <header class="topbar">
+                <div class="topbar-brand">
+                    <span class="topbar-logo" aria-hidden="true">🐔</span>
+                    <div>
+                        <h1>Karthik Chicken Centre</h1>
+                        <p>Fresh Chicken • Quality Meat • Better Health</p>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <a class="phone-pill" href="tel:9182496470">
+                        <span aria-hidden="true">☎</span>
+                        <span>91824 96470</span>
+                    </a>
+                    <button class="logout-button" id="logoutButton" type="button">⇥ Logout</button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <section class="page-view active" id="homePage" aria-labelledby="homeTitle">
+                    <div class="page-heading">
+                        <div>
+                            <p class="eyebrow">POINT OF SALE</p>
+                            <h2 id="homeTitle">Create a new bill</h2>
+                        </div>
+                        <div class="draft-id">Bill ID <strong id="draftBillId">—</strong></div>
+                    </div>
+
+                    <div class="pos-grid">
+                        <section class="panel billing-panel" aria-label="Bill details">
+                            <div class="panel-heading">
+                                <div>
+                                    <h3>Digital Bill Generator</h3>
+                                    <p>Enter customer and item details</p>
+                                </div>
+                                <span class="panel-step" aria-hidden="true">▧</span>
+                            </div>
+
+                            <div class="field-grid customer-fields">
+                                <div class="field-group">
+                                    <label for="customerName">Customer Name</label>
+                                    <input id="customerName" type="text" placeholder="Enter customer name" autocomplete="name">
+                                </div>
+                                <div class="field-group">
+                                    <label for="billDate">Date</label>
+                                    <input id="billDate" type="date">
+                                </div>
+                            </div>
+
+                            <div class="category-switch" role="tablist" aria-label="Bill category">
+                                <button class="category-tab active" type="button" role="tab" aria-selected="true" data-category="meat">
+                                    <span aria-hidden="true">🍗</span> Meat Section
+                                </button>
+                                <button class="category-tab" type="button" role="tab" aria-selected="false" data-category="live">
+                                    <span aria-hidden="true">🐔</span> Live Hen Section
+                                </button>
+                            </div>
+
+                            <section class="category-fields active" id="meatFields" aria-label="Meat section rates">
+                                <div class="section-caption">
+                                    <span>Meat Section</span>
+                                    <small>Dressed chicken / retail meat</small>
+                                </div>
+                                <div class="field-grid">
+                                    <div class="field-group">
+                                        <label for="meatPaperRate">Paper Rate (₹)</label>
+                                        <input id="meatPaperRate" type="number" min="0" step="0.01" value="287">
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="meatMinus">Minus (₹)</label>
+                                        <input id="meatMinus" type="number" min="0" step="0.01" value="30">
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="meatFinalRate">Final Rate (₹)</label>
+                                        <input id="meatFinalRate" type="number" min="0" step="0.01" value="257">
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="meatQuantity">Quantity (kg)</label>
+                                        <input id="meatQuantity" type="number" min="0" step="0.001" value="65">
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="category-fields" id="liveFields" aria-label="Live hen section rates" hidden>
+                                <div class="section-caption">
+                                    <span>Live Hen Section</span>
+                                    <small>Live bird / wholesale</small>
+                                </div>
+                                <div class="field-grid">
+                                    <div class="field-group">
+                                        <label for="livePaperRate">Paper Rate (₹)</label>
+                                        <input id="livePaperRate" type="number" min="0" step="0.01" value="0">
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="liveMinus">Minus (₹)</label>
+                                        <input id="liveMinus" type="number" min="0" step="0.01" value="0">
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="liveFinalRate">Final Rate (₹)</label>
+                                        <input id="liveFinalRate" type="number" min="0" step="0.01" value="0">
+                                    </div>
+                                    <div class="field-group">
+                                        <label for="liveBirds">Number of Birds</label>
+                                        <input id="liveBirds" type="number" min="0" step="1" value="0">
+                                    </div>
+                                    <div class="field-group field-span">
+                                        <label for="liveWeight">Total Weight (kg)</label>
+                                        <input id="liveWeight" type="number" min="0" step="0.001" value="0">
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="summary-bar">
+                                <span>Total Amount</span>
+                                <strong id="draftTotal">₹0</strong>
+                            </div>
+
+                            <button class="generate-button" id="generateBillButton" type="button">
+                                <span aria-hidden="true">⚡</span> Generate Bill
+                            </button>
+
+                            <div class="secondary-actions">
+                                <button class="secondary-button download-action" id="downloadButton" type="button">
+                                    <span aria-hidden="true">↓</span> Download
+                                </button>
+                                <button class="secondary-button print-action" id="printButton" type="button">
+                                    <span aria-hidden="true">▣</span> Print
+                                </button>
+                                <button class="secondary-button reset-action" id="resetButton" type="button">
+                                    <span aria-hidden="true">↻</span> Reset
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="panel preview-panel" aria-label="Live bill preview">
+                            <div class="panel-heading preview-heading">
+                                <div>
+                                    <h3>Live bill preview</h3>
+                                    <p>Receipt updates as you enter details</p>
+                                </div>
+                                <div class="preview-status">
+                                    <span class="category-preview-badge" id="previewCategoryBadge">Category: Meat</span>
+                                    <span class="live-indicator"><i></i> LIVE</span>
+                                </div>
+                            </div>
+                            <div class="receipt-mount" id="homeReceiptMount"></div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="page-view" id="historyPage" aria-labelledby="historyTitle" hidden>
+                    <div class="page-heading history-heading">
+                        <div>
+                            <p class="eyebrow">SALES OVERVIEW</p>
+                            <h2 id="historyTitle">Recent bill history</h2>
+                        </div>
+                        <button class="new-bill-button" type="button" data-page="home">＋ New Bill</button>
+                    </div>
+
+                    <div class="summary-cards">
+                        <article class="summary-card">
+                            <span class="summary-icon navy-icon" aria-hidden="true">▤</span>
+                            <div><p>Total Bills Generated</p><strong id="historyBillCount">0</strong></div>
+                        </article>
+                        <article class="summary-card">
+                            <span class="summary-icon blue-icon" aria-hidden="true">⚖</span>
+                            <div><p>Total Weight Sold</p><strong id="historyWeight">0 kg</strong></div>
+                        </article>
+                        <article class="summary-card">
+                            <span class="summary-icon red-icon" aria-hidden="true">₹</span>
+                            <div><p>Meat Sales</p><strong id="historyMeatSales">₹0</strong></div>
+                        </article>
+                        <article class="summary-card">
+                            <span class="summary-icon gold-icon" aria-hidden="true">🐔</span>
+                            <div><p>Live Hen Sales</p><strong id="historyLiveSales">₹0</strong></div>
+                        </article>
+                    </div>
+
+                    <section class="panel history-panel">
+                        <div class="history-toolbar">
+                            <div>
+                                <h3>Bill records</h3>
+                                <p>Search, review or reprint a saved bill</p>
+                            </div>
+                            <div class="filter-controls">
+                                <label class="search-control">
+                                    <span aria-hidden="true">⌕</span>
+                                    <input id="historySearch" type="search" placeholder="Search customer or bill ID">
+                                </label>
+                                <select id="categoryFilter" aria-label="Filter by category">
+                                    <option value="all">All categories</option>
+                                    <option value="meat">Meat Section</option>
+                                    <option value="live">Live Hen Section</option>
+                                </select>
+                                <input id="historyDateFilter" type="date" aria-label="Filter by date">
+                            </div>
+                        </div>
+
+                        <div class="table-scroll">
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Date</th>
+                                        <th>Customer Name</th>
+                                        <th>Section</th>
+                                        <th>Paper Rate</th>
+                                        <th>Minus</th>
+                                        <th>Final Rate</th>
+                                        <th>Quantity (kg)</th>
+                                        <th>Total Amount (₹)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyRows"></tbody>
+                            </table>
+                        </div>
+                        <p class="empty-history" id="emptyHistory" hidden>No bills match these filters.</p>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="toast-region" id="toastRegion" role="status" aria-live="polite"></div>
+
+    <div class="modal" id="billModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close-modal></div>
+        <section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow">SAVED BILL</p>
+                    <h2 id="modalTitle">Bill preview</h2>
+                </div>
+                <button class="modal-close" id="closeModalButton" type="button" aria-label="Close preview">×</button>
+            </div>
+            <div class="modal-receipt-mount" id="modalReceiptMount"></div>
+            <div class="modal-actions">
+                <button class="secondary-button download-action" id="modalDownloadButton" type="button">↓ Download PNG</button>
+                <button class="secondary-button print-action" id="modalPrintButton" type="button">▣ Print Bill</button>
+            </div>
+        </section>
+    </div>
+
+    <template id="receiptTemplate">
+        <article class="receipt-card">
+            <header class="receipt-shop-header">
+                <span class="receipt-bird rooster" aria-hidden="true">🐓</span>
+                <div class="receipt-shop-title">
+                    <h2>KARTHIK CHICKEN CENTRE</h2>
+                    <p>Fresh Chicken • Quality Meat • Better Health</p>
+                    <small>Main Road, Pedhakothapally, Nagarkarnool - 509412</small>
+                </div>
+                <span class="receipt-bird hen" aria-hidden="true">🐔</span>
+            </header>
+
+            <div class="receipt-contact">☎ Contact &amp; PhonePe : 91824 96470</div>
+
+            <section class="receipt-meta">
+                <div><span>Customer Name</span><strong data-field="customer">—</strong></div>
+                <div><span>Date</span><strong data-field="date">—</strong></div>
+                <div><span>Category</span><strong class="receipt-category" data-field="category">Meat</strong></div>
+                <div><span>Bill ID</span><strong data-field="billId">—</strong></div>
+            </section>
+
+            <table class="receipt-table">
+                <thead>
+                    <tr><th>Description</th><th>Rate (₹)</th></tr>
+                </thead>
+                <tbody data-field="items"></tbody>
+            </table>
+
+            <div class="receipt-total">
+                <span>TOTAL AMOUNT</span>
+                <strong data-field="total">₹0</strong>
+            </div>
+
+            <div class="receipt-thanks">Thank you for your purchase!</div>
+
+            <section class="receipt-payment">
+                <div class="receipt-pay-info">
+                    <div class="receipt-phonepe-brand">
+                        <span class="receipt-phonepe-icon">पे</span>
+                        <strong>PhonePe</strong>
+                    </div>
+                    <p>Scan &amp; Pay</p>
+                    <strong class="receipt-pay-amount" data-field="payAmount">₹0</strong>
+                    <small>Use PhonePe App to pay directly to the shop</small>
+                    <a class="receipt-pay-link" data-field="payLink" href="#">Open PhonePe &amp; Pay ›</a>
+                </div>
+                <div class="receipt-qr-column">
+                    <div class="receipt-qr" data-field="qr" role="img" aria-label="UPI payment QR code"></div>
+                    <strong class="receipt-qr-name">YAMARAJULA VISHNU KRANTHI</strong>
+                    <small>PhonePe • Safe • Fast • Secure</small>
+                </div>
+            </section>
+
+            <footer class="receipt-footer">©2026, All rights reserved, Karthik Chicken Centre.</footer>
+        </article>
+    </template>
+
+    <script src="./script.js"></script>
+</body>
+</html>

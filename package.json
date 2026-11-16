@@ -1,0 +1,12 @@
+{
+  "name": "karthik-chicken-centre-pos",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "auth:secrets": "node scripts/generate-auth-secrets.js"
+  },
+  "dependencies": {
+    "@vercel/functions": "^3.11.3"
+  }
+}
