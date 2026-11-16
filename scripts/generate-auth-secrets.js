@@ -61,7 +61,7 @@ try {
         if (password !== confirmation) throw new Error("The passwords did not match.");
     }
 
-    const username = process.env.KCC_ADMIN_USERNAME || "karthik";
+    const username = process.env.KCC_ADMIN_USERNAME || "KCC";
     const passwordHash = createPasswordHash(password);
     const sessionSecret = randomBytes(32).toString("base64url");
     const environment = [
